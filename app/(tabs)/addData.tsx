@@ -160,21 +160,6 @@ const AddData = () => {
             return;
         }
 
-        // Budget Check (Optional: uncomment if strict enforcement is needed)
-        // let budgetExceeded = false;
-        // let budgetLimit = null;
-        // if (type === 'Expense' && expenseNatureBudget[finalNature]) {
-        //     budgetLimit = parseFloat(expenseNatureBudget[finalNature]);
-        //     if (parsedAmount > budgetLimit) budgetExceeded = true;
-        // } else if (type === 'Borrowing' && borrowingNatureLimit[finalNature]) {
-        //     budgetLimit = parseFloat(borrowingNatureLimit[finalNature]);
-        //     if (parsedAmount > budgetLimit) budgetExceeded = true;
-        // }
-        // if (budgetExceeded) {
-        //     Alert.alert('Budget Exceeded', `The amount ${parsedAmount} exceeds the budget/limit of ${budgetLimit} for ${finalNature}.`);
-        //     // return; // Uncomment to prevent saving if budget is exceeded
-        // }
-
         const record = {
             amount: parsedAmount,
             nature: finalNature,
@@ -249,14 +234,14 @@ const AddData = () => {
         return (
             <>
                 {/* Nature Picker */}
-                <Text style={[styles.label, { color: theme.textSecondary, marginTop: 15 }]}>Nature</Text>
+                <Text style={[styles.label, { color: theme.textSecondary, marginTop: 15 }]}>Category</Text>
                 <View style={[styles.pickerContainer, { borderColor: theme.inputBorder, backgroundColor: theme.inputBg }]}>
                     <Picker
                         selectedValue={editingBudgetNature}
                         onValueChange={setEditingBudgetNature}
                         dropdownIconColor={theme.textSecondary}
                         style={[styles.pickerStyle, { color: theme.text }]}
-                        prompt={`Select ${editingBudgetType} Nature`} // Android prompt
+                        prompt={`Select ${editingBudgetType}Category`} // Android prompt
                     >
                         <Picker.Item label="-- Select category --" value="" color={theme.placeholder}/>
                         {options.filter(opt => opt !== 'Other').map(option => ( // Exclude 'Other' from direct budget setting

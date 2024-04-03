@@ -15,6 +15,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { Link } from 'expo-router';
+import { router, useRouter } from 'expo-router';
+
 
 const PREFS_KEY = 'user_preferences';
 const STORAGE_KEY = 'expenses';
@@ -225,6 +227,10 @@ const ReportPage = () => {
     );
   }
 
+  function navigateToGenAiPage() {
+        router.push('../genAiAnalysis');
+  }
+
   // --- Main Content ---
   return (
     <ScrollView
@@ -249,19 +255,29 @@ const ReportPage = () => {
       </View>
 
       {/* --- AI Powered Report Button (Moved) --- */}
-      <View style={}>
+      {/* <View style={[styles.sectionContainer,{flexDirection: 'row',
+        alignItems: 'center'}]}>
         <Link href="/genAiAnalysis" asChild>
           <TouchableOpacity style={[styles.aiButtonContainer, { backgroundColor: theme.box }]}>
             <Ionicons name="sparkles-outline" size={20} color={theme.primary} style={{ marginRight: 8 }} />
             <Text style={[styles.aiButtonText, { color: theme.primary }]}>Generate AI Powered Report</Text>
-            <Ionicons name="chevron-forward-outline" size={18} color={theme.primary} style={{ marginLeft: 'auto' }} />
           </TouchableOpacity>
         </Link>
-      </View>
+      </View> */}
 
       {/* --- Entries Section --- */}
       <View style={[styles.sectionContainer, { backgroundColor: theme.box }]}>
-        {/* Title moved inside, button removed from here */}
+         <TouchableOpacity
+          onPress={navigateToGenAiPage} 
+          style={[styles.button, styles.syncButton, { marginRight: 5, backgroundColor: "#008B8B" }]}
+          accessibilityRole="button"
+          accessibilityLabel="AI Report"
+      >
+          <Ionicons name="sparkles-outline" size={20} color="#fff" style={{ marginRight: 8 }} />
+           <Text style={styles.buttonText}>Generate AI report</Text>
+       </TouchableOpacity>
+
+
         <Text style={[styles.sectionTitle, { color: theme.text, paddingBottom: 10 }]}>Entries by Category</Text>
         <FlatList
           data={monthlySummary}
@@ -422,6 +438,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 30,
     fontSize: 15,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  syncButton: {
+    flex: 1,
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    width: '100%',
   },
 });
 

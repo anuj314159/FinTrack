@@ -29,7 +29,9 @@ const AboutPage = () => {
 
       <View style={[styles.card, { backgroundColor: theme.box }]}>
         <Text style={[styles.subtitle, { color: theme.text }]}>Developer</Text>
-        <Text style={[styles.text, { color: theme.text }]}>@anujk3.14159</Text>
+        <Text style={[styles.text, { color: theme.text }]}>@anuj314159</Text>
+        <Text style={[styles.text, { color: theme.text }]}>@kanahiya22</Text>
+
       </View>
 
       

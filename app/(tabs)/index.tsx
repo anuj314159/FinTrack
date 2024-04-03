@@ -42,6 +42,8 @@ const IndexPage = () => {
     const [currencySymbol, setCurrencySymbol] = useState('₹'); // Default currency symbol
     const [isLoading, setIsLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
+    const currentColorScheme = useColorScheme();
+    
 
     // --- Hooks ---
     const colorScheme = useColorScheme(); // Get system color scheme (light/dark)
@@ -66,6 +68,10 @@ const IndexPage = () => {
         borrowingColor: colorScheme === 'dark' ? '#614a1f' : '#ffe0b2',
         balanceColor: colorScheme === 'dark' ? '#1f4f5c' : '#e0f7fa',
         textSecondary: colorScheme === 'dark' ? '#b0b0b0' : '#666666',
+        income: currentColorScheme === 'dark' ? '#30D158' : '#34C759',
+        expense: currentColorScheme === 'dark' ? '#FF453A' : '#FF3B30',
+        borrowing: currentColorScheme === 'dark' ? '#FF9F0A' : '#FF9500',
+        balance: currentColorScheme === 'dark' ? '#0A84FF' : '#007AFF',
 
     };
     const formatCurrency = (amount) => {
@@ -361,12 +367,12 @@ const IndexPage = () => {
             return;
         }
         if (!finalNature) {
-            Alert.alert("Input Error", "Please select or enter a catogory for the entry.");
+            Alert.alert("Input Error", "Please select or enter a Category for the entry.");
             return;
         }
         // Check if 'Other' is selected but custom input is empty
         if (editedNature === 'Other' && !editedOtherNature.trim()) {
-             Alert.alert("Input Error", "Please enter the custom catogory when 'Other' is selected.");
+             Alert.alert("Input Error", "Please enter the custom Category when 'Other' is selected.");
              return;
         }
 
@@ -436,7 +442,7 @@ const IndexPage = () => {
             case 'Income': return incomeOptions;
             case 'Borrowing': return borrowingOptions;
             default:
-                console.warn(`Unknown entry type for catogory options: ${type}`);
+                console.warn(`Unknown entry type for Category options: ${type}`);
                 return ['Other']; // Fallback for unknown types
         }
     };
@@ -587,7 +593,7 @@ const IndexPage = () => {
                         />
 
                         {/* Nature Picker */}
-                        <Text style={[styles.inputLabel, { color: theme.text }]}>Catogory</Text>
+                        <Text style={[styles.inputLabel, { color: theme.text }]}>Category</Text>
                         <View style={[styles.pickerContainer, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder }]}>
                             <Picker
                                 selectedValue={editedNature}
@@ -615,7 +621,7 @@ const IndexPage = () => {
                         {/* Custom Nature Input (Conditional) */}
                         {showOtherNatureInput && (
                             <>
-                                <Text style={[styles.inputLabel, { color: theme.text }]}>Custom catogory</Text>
+                                <Text style={[styles.inputLabel, { color: theme.text }]}>Custom Category</Text>
                                 <TextInput
                                     value={editedOtherNature}
                                     onChangeText={setEditedOtherNature}

@@ -71,10 +71,10 @@ async function registerForPushNotificationsAsync(): Promise<string | undefined> 
         // Catch any unexpected errors during the process
         console.error("Error registering for push notifications:", error);
         // Alert the user about the failure
-        Alert.alert(
-            'Notification Error',
-            `Failed to register for push notifications. Please try again later. ${error.message}`
-        );
+        // Alert.alert(
+        //     'Notification Error',
+        //     `Failed to register for push notifications. Please try again later. ${error.message}`
+        // );
         return undefined; // Return undefined on error
     }
 }
@@ -1011,10 +1011,7 @@ const styles = StyleSheet.create({
         marginLeft: 15 + 24 + 15,
     },
     picker: {
-        width: Platform.OS === 'ios' ? 130 : 150,
         height: 50,
-        transform: Platform.OS === 'ios' ? [] : [{ scaleX: 0.9 }, { scaleY: 0.9 }],
-        marginRight: Platform.OS === 'ios' ? 0 : -10,
     },
     button: {
         flexDirection: 'row',
@@ -1023,12 +1020,13 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
+        // width: 100,
     },
     googleButton: {
         backgroundColor: '#4285F4',
         marginVertical: 10,
     },
-     googleButtonText: {
+    googleButtonText: {
         color: '#ffffff',
         fontSize: 16,
         fontWeight: '600',

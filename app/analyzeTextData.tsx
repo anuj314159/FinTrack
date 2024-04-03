@@ -19,7 +19,7 @@ export const analyzeTextData = async (combinedText, apiKey, model = "nvidia/llam
           },
           {
             role: "user",
-            content: `Here is the data from of my personal financial activity help me analyze it so I can plan better in the future:\n\n${combinedText}`, // Send combined text
+            content: `Here is the data from of my personal financial activity help me analyze it so I can plan better in the future and suggest a better spending plan which you think will improve my finances:\n\n${combinedText}`, // Send combined text
           },
         ],
       },

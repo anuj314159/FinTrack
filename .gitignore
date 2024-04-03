@@ -2,6 +2,11 @@
 
 # dependencies
 node_modules/
+*.7z
+.vscode/
+android/
+
+
 
 # Expo
 .expo/
@@ -19,6 +24,9 @@ expo-env.d.ts
 
 # Metro
 .metro-health-check*
+firebaseConfig.js
+google-services.json
+
 
 # debug
 npm-debug.*
