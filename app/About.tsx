@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView , TouchableOpacity} from 'react-nati
 import { useColorScheme } from 'react-native';
 import { router, useRouter } from 'expo-router';
 
-
 const AboutPage = () => {
   const colorScheme = useColorScheme();
   const navigateToBack = () => {
@@ -31,29 +30,25 @@ const AboutPage = () => {
         <Text style={[styles.subtitle, { color: theme.text }]}>Developer</Text>
         <Text style={[styles.text, { color: theme.text }]}>@anuj314159</Text>
         <Text style={[styles.text, { color: theme.text }]}>@kanahiya22</Text>
-
       </View>
 
-      
-
-<View style={[styles.card, { backgroundColor: theme.box }]}>
-<Text style={styles.title}> Project Credits & Acknowledgements</Text>
-  <Text style={styles.text}>• React Native — by Facebook / Meta</Text>
-  <Text style={styles.text}>• Expo — by Expo.dev</Text>
-  <Text style={styles.text}>• Firebase — by Google</Text>
-  <Text style={styles.text}>• AsyncStorage — maintained by React Native Community</Text>
-  <Text style={styles.text}>• React Navigation — by Software Mansion & contributors</Text>
-  <Text style={styles.text}>• Expo Notifications — powered by Expo Team</Text>
-  <Text style={styles.text}>• React Native Picker — by React Native Community</Text>
-  <Text style={styles.text}>• Ionicons — by Ionic Framework team</Text>
-              <TouchableOpacity
-                  style={styles.title}
-                  onPress={navigateToBack}
-              >
-              </TouchableOpacity>
-</View>
+      <View style={[styles.card, { backgroundColor: theme.box }]}>
+        <Text style={styles.title}> Project Credits & Acknowledgements</Text>
+        <Text style={styles.text}>• React Native — by Facebook / Meta</Text>
+        <Text style={styles.text}>• Expo — by Expo.dev</Text>
+        <Text style={styles.text}>• Firebase — by Google</Text>
+        <Text style={styles.text}>• AsyncStorage — maintained by React Native Community</Text>
+        <Text style={styles.text}>• React Navigation — by Software Mansion & contributors</Text>
+        <Text style={styles.text}>• Expo Notifications — powered by Expo Team</Text>
+        <Text style={styles.text}>• React Native Picker — by React Native Community</Text>
+        <Text style={styles.text}>• Ionicons — by Ionic Framework team</Text>
+        <TouchableOpacity
+            style={styles.title}
+            onPress={navigateToBack}
+        >
+        </TouchableOpacity>
+      </View>
     </ScrollView>
-    
   );
 };
 
@@ -85,6 +80,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   text: {
+    fontSize: 16,
+  },
+});
+
+export default AboutPage;
     fontSize: 16,
   },
 });

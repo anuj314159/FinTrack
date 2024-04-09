@@ -7,18 +7,16 @@ import {
     Alert,
     TouchableOpacity,
     ScrollView,
-    // Removed Animated as we'll use a simpler view switch
-    useColorScheme, // Already imported
-    Platform, // For platform-specific styling if needed
-    KeyboardAvoidingView, // To handle keyboard overlap
+    useColorScheme,
+    Platform,
+    KeyboardAvoidingView,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker'; // Already imported
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Already imported
-import { Ionicons } from '@expo/vector-icons'; // Already imported
+import { Picker } from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 
 const STORAGE_KEY = 'expenses';
 
-// Define available options (moved outside component for clarity)
 const expenseOptions = [
     'Food', 'Housing', 'Transport', 'Entertainment', 'Utilities',
     'Fuel', 'Groceries', 'Education', 'Learning', 'Rent',
@@ -32,29 +30,24 @@ const borrowingOptions = [
 ];
 
 const AddData = () => {
-    // --- State Variables ---
-    const [selectedView, setSelectedView] = useState<'entry' | 'budget'>('entry'); // Control view
+    const [selectedView, setSelectedView] = useState<'entry' | 'budget'>('entry');
 
-    // Entry States
     const [type, setType] = useState('--Select--');
     const [amount, setAmount] = useState('');
     const [nature, setNature] = useState('--Select--');
     const [otherNature, setOtherNature] = useState('');
     const [showOtherInput, setShowOtherInput] = useState(false);
 
-    // Budget States
-    const [expenseNatureBudget, setExpenseNatureBudget] = useState({});
-    const [borrowingNatureLimit, setBorrowingNatureLimit] = useState({});
+    const [expenseNatureBudget, setExpenseNatureBudget] = useState<Record<string, number>>({});
+    const [borrowingNatureLimit, setBorrowingNatureLimit] = useState<Record<string, number>>({});
     const [isBudgetEditing, setIsBudgetEditing] = useState(false);
     const [editingBudgetType, setEditingBudgetType] = useState(''); // 'Expense' or 'Borrowing'
     const [editingBudgetNature, setEditingBudgetNature] = useState(''); // Specific nature being edited
     const [tempBudgetAmount, setTempBudgetAmount] = useState('');
 
-    // System State
-    const currentColorScheme = useColorScheme(); // Use consistent naming
-    const [mounted, setMounted] = useState(false); // Track mounting
+    const currentColorScheme = useColorScheme();
+    const [mounted, setMounted] = useState(false);
 
-    // --- Theme Object (Adopted from ChartPage/SearchTransactions) ---
     const theme = {
         background: currentColorScheme === 'dark' ? '#121212' : '#f5f5f5',
         box: currentColorScheme === 'dark' ? '#1e1e1e' : '#ffffff',
@@ -75,7 +68,6 @@ const AddData = () => {
         segmentTextInactive: currentColorScheme === 'dark' ? '#e5e5e5' : '#007AFF', // Use primary for inactive text in light mode
     };
 
-    // --- Helper Functions ---
     const getNatureOptions = (selectedType: string) => {
         if (selectedType === 'Expense') return expenseOptions;
         if (selectedType === 'Income') return incomeOptions;
@@ -427,7 +419,7 @@ const AddData = () => {
                              ) : (
                                 Object.entries(expenseNatureBudget).map(([nature, budget]) => (
                                     <Text key={`exp-${nature}`} style={[styles.budgetText, { color: theme.text }]}>
-                                        • {nature}: <Text style={{fontWeight: 'bold'}}>{budget}</Text>
+                                        • {nature}: <Text style={{fontWeight: 'bold'}}>{String(budget)}</Text>
                                     </Text>
                                 ))
                              )}
@@ -440,7 +432,7 @@ const AddData = () => {
                              ) : (
                                 Object.entries(borrowingNatureLimit).map(([nature, limit]) => (
                                     <Text key={`bor-${nature}`} style={[styles.budgetText, { color: theme.text }]}>
-                                         • {nature}: <Text style={{fontWeight: 'bold'}}>{limit}</Text>
+                                         • {nature}: <Text style={{fontWeight: 'bold'}}>{String(limit)}</Text>
                                     </Text>
                                 ))
                              )}
@@ -511,13 +503,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContentContainer: {
-        flexGrow: 1, // Ensure content can grow
+        flexGrow: 1,
         padding: 16,
-        paddingBottom: 40, // Padding at the bottom
+        paddingBottom: 40,
     },
     segmentContainer: {
         flexDirection: 'row',
-        backgroundColor: Platform.OS === 'ios' ? '#7676801F' : '#e0e0e0', // iOS system gray / Android gray
+        backgroundColor: Platform.OS === 'ios' ? '#7676801F' : '#e0e0e0',
         borderRadius: 8,
         marginBottom: 20,
         overflow: 'hidden',
@@ -535,11 +527,9 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     sectionContainer: {
-        // Removed background color here, applied inline
         borderRadius: 12,
-        padding: 15, // Consistent padding
-        marginBottom: 20, // Space between sections
-        // Shadow applied inline based on theme.box background
+        padding: 15,
+        marginBottom: 20,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
@@ -547,60 +537,54 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     sectionTitle: {
-        fontSize: 18, // Slightly larger title
+        fontSize: 18,
         fontWeight: '600',
-        marginBottom: 15, // More space below title
+        marginBottom: 15,
     },
     label: {
-        fontSize: 14, // Standard label size
+        fontSize: 14,
         fontWeight: '500',
-        marginBottom: 6, // Space below label
-        // Color applied inline
+        marginBottom: 6,
     },
     input: {
-        height: 56, // Consistent input height
+        height: 56,
         borderWidth: 1,
         marginBottom: 16,
         paddingHorizontal: 12,
         borderRadius: 8,
         fontSize: 16,
-        // Background, border, text color applied inline
     },
-    pickerContainer: { // Container to style picker consistently
+    pickerContainer: {
         height: 54,
         borderWidth: 1,
         borderRadius: 8,
         marginBottom: 16,
-        justifyContent: 'center', // Center picker content vertically
-        // Background, border color applied inline
-        overflow: 'hidden', // Clip picker content if needed
+        justifyContent: 'center',
+        overflow: 'hidden',
     },
     pickerStyle: {
-        height: '100%', // Fill container height
+        height: '100%',
         width: '100%',
-        // Color applied inline
     },
     button: {
-        // backgroundColor applied inline
         paddingVertical: 12,
         borderRadius: 8,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10, // Reduced top margin
-        minHeight: 48, // Ensure buttons have good height
+        marginTop: 10,
+        minHeight: 48,
     },
     buttonDisabled: {
-        opacity: 0.5, // Style for disabled button
+        opacity: 0.5,
     },
     buttonText: {
         color: 'white',
         fontWeight: '600',
-        fontSize: 16, // Slightly smaller button text
+        fontSize: 16,
     },
-    // Budget specific styles
     budgetDisplayContainer: {
-        marginBottom: 15, // Space before edit button or next section
+        marginBottom: 15,
     },
     budgetCategoryTitle: {
         fontSize: 16,
@@ -608,13 +592,12 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     budgetText: {
-        fontSize: 15, // Slightly larger budget text
-        marginBottom: 4, // Space between budget items
-        marginLeft: 10, // Indent budget items
+        fontSize: 15,
+        marginBottom: 4,
+        marginLeft: 10,
     },
     separator: {
         height: StyleSheet.hairlineWidth,
-        // Applied dynamically with margin/color
     },
 });
 

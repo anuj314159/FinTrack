@@ -8,7 +8,6 @@ import { ThemedView } from '@/components/ThemedView';
 
 export default function NotFoundScreen() {
    useEffect(() => {
-      // Redirect as soon as the screen loads
       router.replace('/overview');
     }, []);
   return (
@@ -35,4 +34,5 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingVertical: 15,
   },
+});
 });

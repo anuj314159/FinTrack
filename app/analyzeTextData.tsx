@@ -1,5 +1,3 @@
-
-// analyzeTextData.js
 import axios from "axios";
 
 export const analyzeTextData = async (combinedText, apiKey, model = "nvidia/llama-3.1-nemotron-ultra-253b-v1:free") => {
@@ -19,7 +17,7 @@ export const analyzeTextData = async (combinedText, apiKey, model = "nvidia/llam
           },
           {
             role: "user",
-            content: `Here is the data from of my personal financial activity help me analyze it so I can plan better in the future and suggest a better spending plan which you think will improve my finances:\n\n${combinedText}`, // Send combined text
+            content: `Here is the data from of my personal financial activity help me analyze it so I can plan better in the future and suggest a better spending plan which you think will improve my finances:\n\n${combinedText}`,
           },
         ],
       },
@@ -27,7 +25,7 @@ export const analyzeTextData = async (combinedText, apiKey, model = "nvidia/llam
         headers: {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "Budget Buddy", // Consider making this configurable
+          "HTTP-Referer": "Budget Buddy",
         },
       }
     );
@@ -39,7 +37,6 @@ export const analyzeTextData = async (combinedText, apiKey, model = "nvidia/llam
     return { data: response.data.choices[0].message.content, error: null };
 
   } catch (error) {
-    console.error("Error analyzing data:", error);
     return { data: null, error: error };
   }
 };
