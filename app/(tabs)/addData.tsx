@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import {
     View,
     Text,
@@ -29,6 +29,10 @@ const borrowingOptions = [
     'Friend', 'Family', 'Bank Loan', 'Credit Card', 'Other'
 ];
 
+interface BudgetMap {
+    [key: string]: number;
+}
+
 const AddData = () => {
     const [selectedView, setSelectedView] = useState<'entry' | 'budget'>('entry');
 
@@ -37,9 +41,8 @@ const AddData = () => {
     const [nature, setNature] = useState('--Select--');
     const [otherNature, setOtherNature] = useState('');
     const [showOtherInput, setShowOtherInput] = useState(false);
-
-    const [expenseNatureBudget, setExpenseNatureBudget] = useState<Record<string, number>>({});
-    const [borrowingNatureLimit, setBorrowingNatureLimit] = useState<Record<string, number>>({});
+    const [expenseNatureBudget, setExpenseNatureBudget] = useState<BudgetMap>({});
+    const [borrowingNatureLimit, setBorrowingNatureLimit] = useState<BudgetMap>({});
     const [isBudgetEditing, setIsBudgetEditing] = useState(false);
     const [editingBudgetType, setEditingBudgetType] = useState(''); // 'Expense' or 'Borrowing'
     const [editingBudgetNature, setEditingBudgetNature] = useState(''); // Specific nature being edited
@@ -224,7 +227,7 @@ const AddData = () => {
         const budgetMap = editingBudgetType === 'Expense' ? expenseNatureBudget : borrowingNatureLimit;
 
         return (
-            <>
+            <Fragment>
                 {/* Nature Picker */}
                 <Text style={[styles.label, { color: theme.textSecondary, marginTop: 15 }]}>Category</Text>
                 <View style={[styles.pickerContainer, { borderColor: theme.inputBorder, backgroundColor: theme.inputBg }]}>
@@ -267,7 +270,7 @@ const AddData = () => {
                      <Ionicons name="checkmark-circle-outline" size={20} color="white" style={{ marginRight: 8 }} />
                     <Text style={styles.buttonText}>Set Budget</Text>
                 </TouchableOpacity>
-            </>
+            </Fragment>
         );
     };
 
@@ -375,7 +378,7 @@ const AddData = () => {
 
                         {/* Other Nature Input (Conditional) */}
                         {showOtherInput && (
-                             <>
+                             <Fragment>
                                 <Text style={[styles.label, { color: theme.textSecondary }]}>Custom category</Text>
                                 <TextInput
                                     style={[styles.input, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
@@ -385,7 +388,7 @@ const AddData = () => {
                                     placeholderTextColor={theme.placeholder}
                                     returnKeyType="done"
                                 />
-                             </>
+                             </Fragment>
                         )}
 
                         {/* Save Button */}

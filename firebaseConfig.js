@@ -17,6 +17,8 @@ export const API_KEY = "sk-or-v1-922086b43aa2efebc5a8bfcc177c989b8a5470493969477
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+export const ANDROID_CLIENT_ID3 = '395591440315-p5mirr8jh14u5rtcfknlle1eu0r512u1.apps.googleusercontent.com'; // Replace with your actual Android Client ID
+
 
 // Initialize Firestore
 const db = getFirestore(app);
@@ -27,5 +29,5 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage) // Store auth state in AsyncStorage
 });
 
-
+//
 export { db, auth, app }; // Export db and auth

@@ -4,7 +4,7 @@ import { Alert, ActivityIndicator } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { makeRedirectUri, useAuthRequest, AuthSessionResult } from 'expo-auth-session';
-import { auth, db } from './firebaseConfig'; // Adjust path if needed
+import { ANDROID_CLIENT_ID3, auth, db } from './firebaseConfig';
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import {
     signOut,
@@ -14,23 +14,18 @@ import {
     signInWithCredential
 } from "firebase/auth";
 
-// --- Constants ---
-// Replace with your actual Client IDs from your original code
-const ANDROID_CLIENT_ID = '395591440315-p5mirr8jh14u5rtcfknlle1eu0r512u1.apps.googleusercontent.com'; // Replace with your actual Android Client ID
+const ANDROID_CLIENT_ID = ANDROID_CLIENT_ID3;
 
 WebBrowser.maybeCompleteAuthSession();
 
-// Create the context
 const AuthContext = createContext(null);
 
-// Create the provider component
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isAuthLoading, setIsAuthLoading] = useState(true); // Start true
+    const [isAuthLoading, setIsAuthLoading] = useState(true);
 
-    // --- Expo Auth Session Hook ---
     const redirectUri = makeRedirectUri({
-        scheme: 'myapp', // Make sure this matches app.json scheme
+        scheme: 'myapp',
         path: 'redirect'
     });
 
@@ -39,7 +34,6 @@ export const AuthProvider = ({ children }) => {
         scopes: ['profile', 'email'],
     });
 
-    // --- Effect for Firebase Auth State Listener ---
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             if (firebaseUser) {
@@ -49,27 +43,24 @@ export const AuthProvider = ({ children }) => {
                 console.log("AuthContext: User is signed out.");
                 setUser(null);
             }
-            setIsAuthLoading(false); // Stop loading once auth state is determined
+            setIsAuthLoading(false);
         });
 
-        return () => unsubscribe(); // Cleanup listener on unmount
+        return () => unsubscribe();
     }, []);
 
-    // --- Effect to Handle Auth Response ---
     useEffect(() => {
         const handleAuthResponse = async (authResponse: AuthSessionResult) => {
             if (authResponse?.type === 'success') {
                 const { authentication } = authResponse;
                 if (authentication?.idToken) {
                     console.log("Google Auth Success, attempting Firebase sign-in...");
-                    setIsAuthLoading(true); // Set loading during Firebase sign-in
+                    setIsAuthLoading(true);
                     try {
                         const credential = GoogleAuthProvider.credential(authentication.idToken);
                         const userCredential = await signInWithCredential(auth, credential);
                         console.log("Firebase Sign-In Successful via Context:", userCredential.user.uid);
-                        // onAuthStateChanged will update the user state
                         Alert.alert('Login Successful', `Welcome, ${userCredential.user.displayName || userCredential.user.email}!`);
-                        // You might want to trigger data sync here as well, perhaps pass sync function via context?
                     } catch (error: any) {
                         console.error("Firebase Sign-In Error:", error);
                         if (error.code === 'auth/account-exists-with-different-credential') {
@@ -91,7 +82,7 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthLoading(false);
             } else if (authResponse?.type === 'cancel' || authResponse?.type === 'dismiss') {
                  console.log("Google Sign-In cancelled or dismissed by user.");
-                 setIsAuthLoading(false); // Stop loading if user cancelled
+                 setIsAuthLoading(false);
             }
         };
 
@@ -100,12 +91,11 @@ export const AuthProvider = ({ children }) => {
         }
     }, [response]);
 
-    // --- Login Function ---
     const login = () => {
-        if (!user && request) { // Check if request is available
-            setIsAuthLoading(true); // Show loading indicator
+        if (!user && request) {
+            setIsAuthLoading(true);
             console.log("Prompting Google Sign-In via Context...");
-            promptAsync(); // Start Google Sign-In flow
+            promptAsync();
         } else if (user) {
             Alert.alert("Already Logged In", `You are signed in as ${user.email}.`);
         } else {
@@ -114,13 +104,11 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // --- Logout Function ---
     const logout = async () => {
         if (!user) return;
         setIsAuthLoading(true);
         try {
             await signOut(auth);
-            // onAuthStateChanged will set user to null
             console.log("User logged out successfully via Context.");
             Alert.alert("Logged Out", "You have been signed out.");
         } catch (error: any) {
@@ -131,13 +119,11 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Provide state and functions to children
     const value = {
         user,
         isAuthLoading,
-        login, // Provide the login function
-        logout // Provide the logout function
-        // Add other values like sync functions if needed globally
+        login,
+        logout
     };
 
     return (
@@ -147,7 +133,6 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// Custom hook to use the Auth Context
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {

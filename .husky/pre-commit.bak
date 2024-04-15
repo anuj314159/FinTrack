@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx babel app --out-dir app --extensions ".js,.jsx,.ts,.tsx" --no-comments
+git add app
+npm test
