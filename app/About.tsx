@@ -84,9 +84,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AboutPage;
-    fontSize: 16,
-  },
-});
+
 
 export default AboutPage;
