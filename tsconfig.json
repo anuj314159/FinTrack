@@ -7,6 +7,9 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "outDir": "./dist",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

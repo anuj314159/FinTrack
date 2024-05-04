@@ -3,11 +3,12 @@ import { StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '../components/ThemedText';
+import { ThemedView } from '../components/ThemedView';
 
 export default function NotFoundScreen() {
    useEffect(() => {
+      // Redirect as soon as the screen loads
       router.replace('/overview');
     }, []);
   return (
@@ -34,5 +35,4 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingVertical: 15,
   },
-});
 });
